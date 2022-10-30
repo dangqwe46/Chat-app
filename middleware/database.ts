@@ -21,6 +21,7 @@ export async function connectToDatabase() {
   const usersCollection: mongoDB.Collection = db.collection(
     process.env.USERS_COLLECTION_NAME as string
   );
+  
   const chatheaderCollection: mongoDB.Collection = db.collection(
     process.env.CHATHEADER_COLLECTION_NAME as string
   );

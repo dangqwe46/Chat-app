@@ -9,6 +9,7 @@ export default class User {
     public email: string,
     public last_acive: Timestamp,
     public isActive: boolean,
+    public fullname: string,
     public photoUrl: string
   ) {}
 }

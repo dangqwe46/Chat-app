@@ -1,11 +1,12 @@
 show collections
 
-db.Chats.find().pretty()
+db.Users.find().pretty()
 
 db.Chats.drop()
 db.Chat_Headers.drop()
 db.Users.drop()
 
+db.collection(Users);
 db.Users.insertMany([
   {
     email: "dang@gmail.com",
@@ -14,6 +15,14 @@ db.Users.insertMany([
     last_active:  new Timestamp() ,
     isOnline: true,
     photoUserUrl: "https://abc.com/photos/dang.jpg",
+  },
+    {
+    email: "anhkhoa@gmail.com",
+    fullname: "Le Anh Khoa",
+    nickname: "Khoa Pub", //if nickname is null get fullname
+    last_active:  new Timestamp() ,
+    isOnline: true,
+    photoUserUrl: "https://abc.com/photos/khoa.jpg",
   },
   {
     email: "binh@gmail.com",
