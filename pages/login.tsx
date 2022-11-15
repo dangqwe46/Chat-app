@@ -2,8 +2,12 @@ import Button from "@mui/material/Button";
 import Head from "next/head";
 import styled from "styled-components";
 import Image from "next/image";
-import Google from "../asset/google.png";
-
+import GoogleLogo from "../asset/google.png";
+import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
+import { GetServerSideProps } from "next";
+interface IProps {
+  providers: Awaited<ReturnType<typeof getProviders>>;
+}
 const StyleContainer = styled.div`
   height: 100vh;
   display: grid;
@@ -25,11 +29,13 @@ const StyleImageWrapper = styled.div`
 const StyleLoginButton = styled(Button)`
   font-weight: bolder;
 `;
-const StyleIntro=styled.div`
-font-weight: bold;
-font-size:x-large;
-`
-const Login = () => {
+const StyleIntro = styled.div`
+  font-weight: bold;
+  font-size: x-large;
+`;
+const Login = ({ providers }: IProps) => {
+  const { name: providerName, id: providerId } =
+    providers?.google as ClientSafeProvider;
   return (
     <StyleContainer>
       <Head>
@@ -37,15 +43,20 @@ const Login = () => {
       </Head>
       <StyleLoginContainer>
         <StyleImageWrapper>
-          <Image src={Google} alt="Google Logo" height="200px" width="200px" />
+          <Image
+            src={GoogleLogo}
+            alt="Google Logo"
+            height="200px"
+            width="200px"
+          />
         </StyleImageWrapper>
         <StyleLoginButton
           variant="outlined"
           onClick={() => {
-            console.log("OKE");
+            signIn(providerId, { callbackUrl: "/" });
           }}
         >
-          Login with Google
+          Login with {providerName}
         </StyleLoginButton>
       </StyleLoginContainer>
     </StyleContainer>
@@ -53,3 +64,14 @@ const Login = () => {
 };
 
 export default Login;
+
+export const getServerSideProps: GetServerSideProps<IProps> = async (
+  context
+) => {
+  const providers = await getProviders();
+  return {
+    props: {
+      providers,
+    },
+  };
+};

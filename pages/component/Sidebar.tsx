@@ -7,6 +7,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import SearchIcon from "@mui/icons-material/Search";
 
 import styled from "styled-components";
+import { signOut, useSession } from "next-auth/react";
+import { Session } from "next-auth";
+import { NextPage } from "next";
 
 const StyleContainer = styled.div`
   height: 100vh;
@@ -46,7 +49,16 @@ const StyleAvatar = styled(Avatar)`
     opacity: 0.8;
   }
 `;
-
+const StyleName = styled.text`
+  outline: none;
+  width: 100px;
+  flex: 1;
+  border: none;
+  font-size: 18px;
+  padding: 10px;
+  font-family: "Gill Sans";
+  word-wrap: break-word;
+`;
 const StyleSearchInput = styled.input`
   outline: none;
   flex: 1;
@@ -54,12 +66,14 @@ const StyleSearchInput = styled.input`
   font-size: 15px;
 `;
 const Sidebar = () => {
+  const { data: session } = useSession();
   return (
     <StyleContainer>
       <StyleHeader>
-        <Tooltip title="USER EMAIL" placement="right">
-          <StyleAvatar />
+        <Tooltip title={session?.user?.email} placement="right">
+          <StyleAvatar src={session?.user?.image as string} />
         </Tooltip>
+        <StyleName>{session?.user?.name}</StyleName>
         <div>
           <IconButton>
             <ChatIcon />
@@ -67,7 +81,7 @@ const Sidebar = () => {
           <IconButton>
             <MorVericalIcon />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => signOut({ callbackUrl: "/login" })}>
             <LogoutIcon />
           </IconButton>
         </div>
