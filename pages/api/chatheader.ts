@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
-import { collections, connectToDatabase } from "../../middleware/database";
+import { collections, connectToDatabase } from "../../utils/database";
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
