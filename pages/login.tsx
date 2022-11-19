@@ -5,7 +5,7 @@ import Image from "next/image";
 import React from "react";
 import { useSession, signOut, getProviders, signIn } from "next-auth/react";
 import GoogleLogo from "../asset/google.png";
-import { useNavigate } from "react-router-dom";
+
 interface IProps {
   providers: Awaited<ReturnType<typeof getProviders>>;
 }
@@ -37,25 +37,7 @@ const StyleIntro = styled.div`
 `;
 const Login = () => {
   const { data: session } = useSession();
-  let img_url = session?.user?.image as string;
-  console.log(session);
-  if (session) {
-    return (
-      <StyleContainer>
-        <div>Welcome, {session.user?.name}</div>
-
-        <img
-          src={img_url}
-          alt="img_avatar"
-          height="100px"
-          width="100px"
-          referrerPolicy="no-referrer"
-        />
-
-        <button onClick={() => signOut()}>Sign Out</button>
-      </StyleContainer>
-    );
-  } else {
+  if (!session) {
     return (
       <StyleContainer>
         <Head>
