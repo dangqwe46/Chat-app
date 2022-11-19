@@ -2,7 +2,13 @@ import Button from "@mui/material/Button";
 import Head from "next/head";
 import styled from "styled-components";
 import Image from "next/image";
-import Google from "../asset/google.png";
+import React from "react";
+import { useSession, signOut, getProviders, signIn } from "next-auth/react";
+import GoogleLogo from "../asset/google.png";
+import { useNavigate } from "react-router-dom";
+interface IProps {
+  providers: Awaited<ReturnType<typeof getProviders>>;
+}
 
 const StyleContainer = styled.div`
   height: 100vh;
@@ -25,31 +31,55 @@ const StyleImageWrapper = styled.div`
 const StyleLoginButton = styled(Button)`
   font-weight: bolder;
 `;
-const StyleIntro=styled.div`
-font-weight: bold;
-font-size:x-large;
-`
+const StyleIntro = styled.div`
+  font-weight: bold;
+  font-size: x-large;
+`;
 const Login = () => {
-  return (
-    <StyleContainer>
-      <Head>
-        <title>Login in Chat-app</title>
-      </Head>
-      <StyleLoginContainer>
-        <StyleImageWrapper>
-          <Image src={Google} alt="Google Logo" height="200px" width="200px" />
-        </StyleImageWrapper>
-        <StyleLoginButton
-          variant="outlined"
-          onClick={() => {
-            console.log("OKE");
-          }}
-        >
-          Login with Google
-        </StyleLoginButton>
-      </StyleLoginContainer>
-    </StyleContainer>
-  );
+  const { data: session } = useSession();
+  let img_url = session?.user?.image as string;
+  console.log(session);
+  if (session) {
+    return (
+      <StyleContainer>
+        <div>Welcome, {session.user?.name}</div>
+
+        <img
+          src={img_url}
+          alt="img_avatar"
+          height="100px"
+          width="100px"
+          referrerPolicy="no-referrer"
+        />
+
+        <button onClick={() => signOut()}>Sign Out</button>
+      </StyleContainer>
+    );
+  } else {
+    return (
+      <StyleContainer>
+        <Head>
+          <title>Login in Chat-app</title>
+        </Head>
+        <StyleLoginContainer>
+          <StyleImageWrapper>
+            <Image
+              src={GoogleLogo}
+              alt="Google Logo"
+              height="200px"
+              width="200px"
+            />
+          </StyleImageWrapper>
+          <StyleLoginButton
+            variant="outlined"
+            onClick={() => signIn("google", { callbackUrl: "/login" })}
+          >
+            Login with Google
+          </StyleLoginButton>
+        </StyleLoginContainer>
+      </StyleContainer>
+    );
+  }
 };
 
 export default Login;

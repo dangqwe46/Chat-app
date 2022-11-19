@@ -1,10 +1,11 @@
-import { ObjectId, Timestamp } from "mongodb";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import Sidebar from "./component/Sidebar";
+import React from "react";
+import { useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
+  const { data: session } = useSession();
   return (
     <div>
       <Head>
