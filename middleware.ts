@@ -4,7 +4,11 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const url = request.nextUrl;
   const cookie_session = request.cookies.get("next-auth.session-token");
-
+  // if (url.pathname === "/test") {
+  //   console.log("Binh");
+  //   url.pathname = "/test";
+  //   return NextResponse.redirect(url);
+  // }
   if (url.pathname === "/" && !cookie_session) {
     url.pathname = "/login";
     return NextResponse.redirect(url);

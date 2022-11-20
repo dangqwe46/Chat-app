@@ -6,6 +6,7 @@ import MorVericalIcon from "@mui/icons-material/MoreVert";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSession, signOut } from "next-auth/react";
+import AlignItemsList from "./AlignItemsList";
 
 import styled from "styled-components";
 
@@ -54,7 +55,7 @@ const StyleSearchInput = styled.input`
   border: none;
   font-size: 15px;
 `;
-const Sidebar = () => {
+export default function Sidebar() {
   const { data: session } = useSession();
   return (
     <StyleContainer>
@@ -81,9 +82,7 @@ const Sidebar = () => {
         <StyleSearchInput placeholder="Search in conversations" />
       </StyleSearch>
       <StyleSidebarButton>Start a new conversation</StyleSidebarButton>
-      {/* List of conversions */}
+      <AlignItemsList></AlignItemsList>
     </StyleContainer>
   );
-};
-
-export default Sidebar;
+}
