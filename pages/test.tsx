@@ -12,30 +12,25 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
+const Item = styled("div")(() => ({
   textAlign: "center",
-  color: theme.palette.text.secondary,
 }));
 
-const gifts = ["CPU i9", "RAM 32G", "RGB Keyboard"];
-function generate(element: React.ReactElement) {
-  return [0, 1, 2].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    })
-  );
-}
 const Test = () => {
-  const [gift, setGift] = useState();
-  const [dense, setDense] = React.useState(false);
-  const [secondary, setSecondary] = React.useState(false);
-  const randomGift = () => {
-    const index = Math.floor(Math.random() * gifts.length);
-    console.log(index);
-    setGift(gifts[index] as any);
+  const [jobs, setJobs] = useState([]);
+  const [job, setJob] = useState("");
+
+  function generate(element: React.ReactElement) {
+    return jobs.map((value) =>
+      React.cloneElement(element, {
+        key: value,
+      })
+    );
+  }
+
+  const handleSubmit = () => {
+    setJobs((prev) => [...prev, job] as any);
+    setJob("");
   };
   return (
     <React.Fragment>
@@ -49,14 +44,37 @@ const Test = () => {
           minHeight="100vh"
         >
           <Grid container spacing={3}>
-            <Grid item xs>
-              <Item>variable width content</Item>
+            <Grid item xs={12}>
+              <Item>
+                <Input
+                  value={job}
+                  onChange={(e) => setJob(e.target.value)}
+                ></Input>
+              </Item>
             </Grid>
-            <Grid item xs={y}>
-              <Item>xs=6</Item>
+            <Grid item xs={12}>
+              <Item>
+                <Button variant="contained" onClick={handleSubmit}>
+                  Add List
+                </Button>
+              </Item>
             </Grid>
-            <Grid item xs>
-              <Item>xs</Item>
+
+            <Grid item xs={12}>
+              <Item>
+                <List>
+                  {jobs.map((job, index) => (
+                    <ListItem key={index} sx={{ textAlign: "center" }}>
+                      <ListItemText primary={job} />
+                    </ListItem>
+                  ))}
+                  {/* {generate(
+                    <ListItem sx={{ textAlign: "center" }}>
+                      <ListItemText primary={job  } />
+                    </ListItem>
+                  )} */}
+                </List>
+              </Item>
             </Grid>
           </Grid>
         </Box>
