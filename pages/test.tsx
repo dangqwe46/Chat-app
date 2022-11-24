@@ -3,7 +3,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Input from "@mui/material/Input";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -19,17 +19,24 @@ const Item = styled("div")(() => ({
 const Test = () => {
   const [jobs, setJobs] = useState([]);
   const [job, setJob] = useState("");
+  let getLocalState: [];
+  useEffect(() => {
+    // Perform localStorage action
 
-  function generate(element: React.ReactElement) {
-    return jobs.map((value) =>
-      React.cloneElement(element, {
-        key: value,
-      })
-    );
-  }
+    getLocalState = JSON.parse(localStorage.getItem("jobs") as any);
+    setJobs(getLocalState);
+    console.log("LocalState: ", getLocalState);
+  }, []);
 
   const handleSubmit = () => {
-    setJobs((prev) => [...prev, job] as any);
+    setJobs((prev: any) => {
+      const newJobs = [...prev, job] as any;
+
+      const jsonJobs = JSON.stringify(newJobs);
+      localStorage.setItem("jobs", jsonJobs);
+
+      return newJobs;
+    });
     setJob("");
   };
   return (
@@ -63,16 +70,11 @@ const Test = () => {
             <Grid item xs={12}>
               <Item>
                 <List>
-                  {jobs.map((job, index) => (
+                  {jobs.map((job: any, index: any) => (
                     <ListItem key={index} sx={{ textAlign: "center" }}>
                       <ListItemText primary={job} />
                     </ListItem>
                   ))}
-                  {/* {generate(
-                    <ListItem sx={{ textAlign: "center" }}>
-                      <ListItemText primary={job  } />
-                    </ListItem>
-                  )} */}
                 </List>
               </Item>
             </Grid>
