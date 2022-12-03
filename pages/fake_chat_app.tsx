@@ -15,29 +15,32 @@ const Item = styled("div")(() => ({
   textAlign: "center",
 }));
 
+const jobs = [
+  {
+    id: 1,
+    name: "Toi la binh hu",
+  },
+  {
+    id: 2,
+    name: "Toi la ngo khong",
+  },
+  {
+    id: 3,
+    name: "Toi la ai vay ta?",
+  },
+];
+
 const Test = () => {
-  const [jobs, setJobs] = useState([]);
-  const [job, setJob] = useState("");
-  let getLocalState: [];
+  const [me, setMe] = useState(1);
+
   useEffect(() => {
-    // Perform localStorage action
+    const handleComment = ({ detail }: any) => {
+      console.log(detail);
+    };
 
-    getLocalState = JSON.parse(localStorage.getItem("jobs") as any);
-    setJobs(getLocalState);
-    console.log("LocalState: ", getLocalState);
-  }, []);
-
-  const handleSubmit = () => {
-    setJobs((prev: any) => {
-      const newJobs = [...prev, job] as any;
-
-      const jsonJobs = JSON.stringify(newJobs);
-      localStorage.setItem("jobs", jsonJobs);
-
-      return newJobs;
-    });
-    setJob("");
-  };
+    window.addEventListener(`lesson-${me}`, handleComment);
+    return window.removeEventListener(`lesson-${me}`, handleComment);
+  }, [me]);
   return (
     <React.Fragment>
       <CssBaseline />
@@ -51,27 +54,27 @@ const Test = () => {
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Item>
-                <Input
-                  value={job}
-                  onChange={(e) => setJob(e.target.value)}
-                ></Input>
-              </Item>
+              <Item></Item>
             </Grid>
             <Grid item xs={12}>
-              <Item>
-                <Button variant="contained" onClick={handleSubmit}>
-                  Add List
-                </Button>
-              </Item>
+              <Item></Item>
             </Grid>
 
             <Grid item xs={12}>
               <Item>
                 <List>
-                  {jobs.map((job: any, index: any) => (
-                    <ListItem key={index} sx={{ textAlign: "center" }}>
-                      <ListItemText primary={job} />
+                  {jobs.map((job) => (
+                    <ListItem
+                      key={job.id}
+                      sx={{
+                        textAlign: "center",
+                        color: job.id === me ? "red" : "#333",
+                      }}
+                    >
+                      <ListItemText
+                        primary={job.name}
+                        onClick={() => setMe(job.id)}
+                      />
                     </ListItem>
                   ))}
                 </List>

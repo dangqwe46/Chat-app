@@ -7,8 +7,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSession, signOut } from "next-auth/react";
 import AlignItemsList from "./AlignItemsList";
-
 import styled from "styled-components";
+import { server } from "../index";
 
 const StyleContainer = styled.div`
   height: 100vh;
@@ -57,6 +57,20 @@ const StyleSearchInput = styled.input`
 `;
 export default function Sidebar() {
   const { data: session } = useSession();
+  const user = {
+    name: session?.user?.name,
+    email: session?.user?.email,
+    avatar: session?.user?.image,
+  };
+  console.log(URL);
+  fetch(server + "/api/users/insertUser", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
+  console.log("Done!!!!");
   return (
     <StyleContainer>
       <StyleHeader>

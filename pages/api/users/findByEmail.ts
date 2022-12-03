@@ -7,13 +7,10 @@ const handler = nextConnect<NextApiRequest, NextApiResponse>();
 handler.get(async (req, res, next) => {
   try {
     await connectToDatabase();
-    console.log(req!.query);
+
     const paraQuery = req!.query;
     const user = await collections.user?.findOne(paraQuery);
-    if (!user) {
-      res.send(user);
-    }
-    console.log(user.fullname);
+    res.send(user);
   } catch (error: any) {
     res.send(error.message);
   }

@@ -1,6 +1,6 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
-
+import { useSession, signIn } from "next-auth/react";
 export default NextAuth({
   providers: [
     GoogleProvider({
@@ -13,3 +13,5 @@ export default NextAuth({
     signIn: "/login",
   },
 });
+
+

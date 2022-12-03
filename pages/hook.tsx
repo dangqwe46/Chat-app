@@ -16,27 +16,19 @@ const Item = styled("div")(() => ({
 }));
 
 const Test = () => {
-  const [jobs, setJobs] = useState([]);
-  const [job, setJob] = useState("");
-  let getLocalState: [];
+  const [avatar, setAvatar] = useState();
+
   useEffect(() => {
-    // Perform localStorage action
+    return () => {
+      avatar && URL.revokeObjectURL(avatar);
+    };
+  }, [avatar]);
 
-    getLocalState = JSON.parse(localStorage.getItem("jobs") as any);
-    setJobs(getLocalState);
-    console.log("LocalState: ", getLocalState);
-  }, []);
+  const handlePreviewAvatar = (e: any) => {
+    const img = e.target.files[0];
 
-  const handleSubmit = () => {
-    setJobs((prev: any) => {
-      const newJobs = [...prev, job] as any;
-
-      const jsonJobs = JSON.stringify(newJobs);
-      localStorage.setItem("jobs", jsonJobs);
-
-      return newJobs;
-    });
-    setJob("");
+    img.preview = URL.createObjectURL(img);
+    setAvatar(img.preview);
   };
   return (
     <React.Fragment>
@@ -52,30 +44,21 @@ const Test = () => {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Item>
-                <Input
-                  value={job}
-                  onChange={(e) => setJob(e.target.value)}
-                ></Input>
+                <Input type="file" onChange={handlePreviewAvatar} />
               </Item>
             </Grid>
             <Grid item xs={12}>
               <Item>
-                <Button variant="contained" onClick={handleSubmit}>
-                  Add List
-                </Button>
+                <Button variant="contained">Add List</Button>
               </Item>
             </Grid>
 
             <Grid item xs={12}>
-              <Item>
-                <List>
-                  {jobs.map((job: any, index: any) => (
-                    <ListItem key={index} sx={{ textAlign: "center" }}>
-                      <ListItemText primary={job} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Item>
+              {avatar && (
+                <Item>
+                  {<img src={avatar as any} alt="" width="250" height="250" />}
+                </Item>
+              )}
             </Grid>
           </Grid>
         </Box>

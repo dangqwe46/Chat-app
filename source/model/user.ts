@@ -4,6 +4,7 @@ import { ObjectId, Timestamp } from "mongodb";
 // Class Implementation
 
 export default class User {
+  static email: string | null | undefined;
   constructor(
     public id: ObjectId,
     public email: string,
