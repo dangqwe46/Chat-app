@@ -1,15 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
-import { collections, connectToDatabase } from "../../middleware/database";
+import { collections, connectToDatabase } from "../../../middleware/database";
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
 handler.get(async (req, res) => {
   try {
     await connectToDatabase();
-    const chatheader = await collections.chatheader?.findOne();
-    res.send(chatheader);
-    console.log(chatheader);
+    const group = await collections.chatgroup?.findOne(req.query);
+    res.send(group);
   } catch (error: any) {
     res.send(error.message);
   }

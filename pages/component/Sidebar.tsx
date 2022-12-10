@@ -9,6 +9,7 @@ import { useSession, signOut } from "next-auth/react";
 import AlignItemsList from "./AlignItemsList";
 import styled from "styled-components";
 import { server } from "../index";
+import { useEffect } from "react";
 
 const StyleContainer = styled.div`
   height: 100vh;
@@ -57,20 +58,25 @@ const StyleSearchInput = styled.input`
 `;
 export default function Sidebar() {
   const { data: session } = useSession();
-  const user = {
-    name: session?.user?.name,
-    email: session?.user?.email,
-    avatar: session?.user?.image,
-  };
-  console.log(URL);
-  fetch(server + "/api/users/insertUser", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(user),
-  });
-  console.log("Done!!!!");
+
+  useEffect(() => {
+    if (session) {
+      const user = {
+        name: session?.user?.name,
+        email: session?.user?.email,
+        avatar: session?.user?.image,
+      };
+
+      fetch(server + "/api/users/insertUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+    }
+  }, [session]);
+
   return (
     <StyleContainer>
       <StyleHeader>

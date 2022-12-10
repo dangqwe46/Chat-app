@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 
 export const collections: {
   user?: mongoDB.Collection;
-  chatheader?: mongoDB.Collection;
+  chatgroup?: mongoDB.Collection;
   chat?: mongoDB.Collection;
 } = {};
 
@@ -21,15 +21,15 @@ export async function connectToDatabase() {
   const usersCollection: mongoDB.Collection = db.collection(
     process.env.USERS_COLLECTION_NAME as string
   );
-  
-  const chatheaderCollection: mongoDB.Collection = db.collection(
-    process.env.CHATHEADER_COLLECTION_NAME as string
+
+  const chatgroupCollection: mongoDB.Collection = db.collection(
+    process.env.CHATGROUP_COLLECTION_NAME as string
   );
   const chatCollection: mongoDB.Collection = db.collection(
     process.env.CHAT_COLLECTION_NAME as string
   );
 
   collections.user = usersCollection;
-  collections.chatheader = chatheaderCollection;
+  collections.chatgroup = chatgroupCollection;
   collections.chat = chatCollection;
 }

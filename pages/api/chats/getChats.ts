@@ -4,12 +4,17 @@ import { collections, connectToDatabase } from "../../../middleware/database";
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
-handler.get(async (req, res, next) => {
+handler.get(async (req, res) => {
   try {
+    console.log(req.query);
     await connectToDatabase();
-    const user = await collections.user!.find().toArray();
-
-    // res.send(user);
+    const message = await collections.chat
+      ?.find(req.query)
+      .sort({ _id: -1 })
+      .limit(1)
+      .toArray();
+    res.send(message);
+    console.log(message);
   } catch (error: any) {
     res.send(error.message);
   }

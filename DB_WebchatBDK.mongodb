@@ -1,6 +1,15 @@
+const database = 'test';
+const collection = 'Users';
+
+// Create a new database.
+use(database);
+
+// Create a new collection.
+db.createCollection(collection);
 show collections
 
 db.Users.find().pretty()
+
 
 db.Chats.drop()
 db.Chat_Headers.drop()
@@ -38,58 +47,56 @@ db.Users.insertMany([
 db.Users.find({_id: ObjectId('635cf0938aec6c76a1b70d5c')});
 
 db.Users.ensureIndex({email: 1})
-
+                                  //Group
+      db.Chat_Group.drop()                            
 db.Chat_Group.insert({
-  //_id: ,//default
-  chat_name: "Nhom chat Binh Hu", 
-  owner: {email: "dang@gmail.com", nickname: "Quang Teo" },
-  recipient: [ { email: "binh@gmail.com", nickname: "Binh Hu" },
-  { email: "anhkhoa@gmail.com", nickname: "Khoa Pub" }], 
-  photoGroupChatUrl: "https://abc.com/photos/chatheader.jpg",
+  group_id:"1",
+  chat_name: "", 
+  owner: {email: "nguyenvanthaibinh2210@gmail.com", nickname:"Bình Nguyễn Văn Thái" },
+  recipient: [ { email: "oh0h_sory_2210@yahoo.com.vn",  nickname: "Hu Binh" }],
+  photoGroupChatUrl: "https://lh3.googleusercontent.com/a/AEdFTp6zvs4chsoAfu8cUqN-M96cnCSASoq_0djXtHrn=s96-c",
 });
 
 db.Chat_Group.ensureIndex({chat_name: 1})
 
+                                  //Chat
+db.Chats.drop()
+//
+db.Chats.find({id_chat_group:'1',
+'to.email': "nguyenvanthaibinh2210@gmail.com"}).sort({'_id': 1}).limit(2)
+
 db.Chats.insertMany([
 {
-  id_chat_group: ObjectId('635cf21d16e2e3f39f1593b4'),// Chat_Group of id
+  id_chat_group: "1",
   chat_name: "Nhom chat Binh Hu",
-  sender_email: "dang@gmail.com",
-  send_at: new Timestamp(),
+  from: "nguyenvanthaibinh2210@gmail.com",
+  nickname:"Bình Nguyễn Văn Thái",
+  to:[{
+      email: "oh0h_sory_2210@yahoo.com.vn",
+      nickname: "Hu Binh",
+      isSaw: false,
+      seen_at: new Date(),
+    }],
+  send_at: new Date(),
   type: "text", 
-  content: "binh hu test content 123",
-  seen_by: [
-    {
-      email: "binh@gmail.com",
-      nickname: "Binh Hu",
-      seen_at: new Timestamp(),
-    },
-    {
-      email: "anhkhoa@gmail.com",
-      nickname: "anh Khoa",
-      seen_at: new Timestamp(),
-    }
-  ],
-},
-{
-  id_chat_group: ObjectId('635cf21d16e2e3f39f1593b4'),
+  content: "Hello Binh Hu!!!"
+},{
+  id_chat_group: "1",
   chat_name: "Nhom chat Binh Hu",
-  email: "binh@gmail.com",
-  send_at: new Timestamp(),
+  from: "oh0h_sory_2210@yahoo.com.vn",
+  nickname:"Hu Binh",
+  send_at: new Date(),
   type: "text", 
-  content: "binh hu gui tin nhan den moi nguoi!",
-  seen_by: [
+  content: "Oke! I hrearing a chat.",
+  to: [
     {
-      email: "dang@gmail.com",
-      nickname: "Binh Hu",
-      seen_at: new Timestamp(),
-    },
-    {
-      email: "anhkhoa@gmail.com",
-      nickname: "anh Khoa",
-      seen_at: new Timestamp(),
+      email: "nguyenvanthaibinh2210@gmail.com",
+      nickname:"Bình Nguyễn Văn Thái",
+       isSaw: false,
+      seen_at: new Date(),
     }
-  ],
+    
+  ]
 }
 ]);
 
