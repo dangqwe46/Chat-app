@@ -6,8 +6,9 @@ const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
 handler.get(async (req, res) => {
   try {
+    // console.log(req.query);
     await connectToDatabase();
-    const group = await collections.chatgroup?.findOne(req.query);
+    const group = await collections.chatgroup?.find(req.query).toArray();
     res.send(group);
   } catch (error: any) {
     res.send(error.message);

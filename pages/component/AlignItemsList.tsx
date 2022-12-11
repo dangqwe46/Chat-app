@@ -10,30 +10,22 @@ import { useEffect, useState, memo } from "react";
 import { server } from "../index";
 import { useSession } from "next-auth/react";
 
-export default function AlignItemsList() {
+function AlignItemsList() {
   const { data: session } = useSession();
-  const [chatData, setChatData] = useState([]);
   const [groupData, setGroupData] = useState([]);
 
   useEffect(() => {
-    fetch(server + `/api/group/1`)
+    fetch(server + `/api/group/${session?.user?.email}`)
       .then((response) => response.json())
       .then((data) => {
         setGroupData(data);
-      });
-    // console.log(ChatInfo);
-    fetch(
-      server +
-        `/api/chats/getChats?id_chat_group=1&to.email=${session?.user?.email}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setChatData(data);
+        console.log(data);
       });
   }, [session]);
+
   return (
     <>
-      {chatData.map((object: any) => (
+      {groupData.map((object: any) => (
         <List
           key={object._id}
           sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
@@ -42,12 +34,15 @@ export default function AlignItemsList() {
             <ListItemAvatar>
               <Avatar
                 alt="GroupChatAvatar"
-                src={groupData!.photoGroupChatUrl}
+                imgProps={{ referrerPolicy: "no-referrer" }}
+                src={object.photoGroupChatUrl}
               />
             </ListItemAvatar>
             <ListItemText
-              primary={object.nickname}
-              secondary={<React.Fragment>{object.content}</React.Fragment>}
+              primary={object.chat_name}
+              secondary={
+                <React.Fragment>{object.last_chat_content}</React.Fragment>
+              }
             />
           </ListItem>
         </List>
@@ -55,3 +50,4 @@ export default function AlignItemsList() {
     </>
   );
 }
+export default memo(AlignItemsList);

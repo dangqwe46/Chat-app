@@ -9,7 +9,7 @@ import { useSession, signOut } from "next-auth/react";
 import AlignItemsList from "./AlignItemsList";
 import styled from "styled-components";
 import { server } from "../index";
-import { useEffect } from "react";
+import { useEffect, memo } from "react";
 
 const StyleContainer = styled.div`
   height: 100vh;
@@ -56,7 +56,8 @@ const StyleSearchInput = styled.input`
   border: none;
   font-size: 15px;
 `;
-export default function Sidebar() {
+
+function Sidebar() {
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -81,7 +82,10 @@ export default function Sidebar() {
     <StyleContainer>
       <StyleHeader>
         <Tooltip title={session?.user?.name as string} placement="right">
-          <StyleAvatar src={session?.user?.image as string} />
+          <StyleAvatar
+            src={session?.user?.image as string}
+            imgProps={{ referrerPolicy: "no-referrer" }}
+          />
         </Tooltip>
         <div>
           <IconButton>
@@ -106,3 +110,4 @@ export default function Sidebar() {
     </StyleContainer>
   );
 }
+export default memo(Sidebar);
