@@ -14,7 +14,7 @@ handler.post(async (req, res) => {
       if (data.result == true) isRegisteredUser = true;
     });
   if (isRegisteredUser) return;
-
+  console.log(isRegisteredUser);
   try {
     await connectToDatabase();
     let userData = {

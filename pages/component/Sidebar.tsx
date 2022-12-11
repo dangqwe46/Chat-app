@@ -58,16 +58,16 @@ const StyleSearchInput = styled.input`
 `;
 
 function Sidebar() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (session) {
+    if (status === "authenticated") {
       const user = {
         name: session?.user?.name,
         email: session?.user?.email,
         avatar: session?.user?.image,
       };
-
+    
       fetch(server + "/api/users/insertUser", {
         method: "POST",
         headers: {
@@ -76,7 +76,7 @@ function Sidebar() {
         body: JSON.stringify(user),
       });
     }
-  }, [session]);
+  }, [status]);
 
   return (
     <StyleContainer>
@@ -106,7 +106,7 @@ function Sidebar() {
         <StyleSearchInput placeholder="Search in conversations" />
       </StyleSearch>
       <StyleSidebarButton>Start a new conversation</StyleSidebarButton>
-      <AlignItemsList></AlignItemsList>
+      <AlignItemsList email={session?.user?.email}></AlignItemsList>
     </StyleContainer>
   );
 }

@@ -10,18 +10,19 @@ import { useEffect, useState, memo } from "react";
 import { server } from "../index";
 import { useSession } from "next-auth/react";
 
-function AlignItemsList() {
-  const { data: session } = useSession();
+function AlignItemsList({ email }: { email: any }) {
   const [groupData, setGroupData] = useState([]);
 
   useEffect(() => {
-    fetch(server + `/api/group/${session?.user?.email}`)
+    fetch(server + `/api/group/${email}`)
       .then((response) => response.json())
       .then((data) => {
-        setGroupData(data);
-        console.log(data);
+        if (data.length > 0) {
+          setGroupData(data);
+        }
+    
       });
-  }, [session]);
+  }, [email]);
 
   return (
     <>
