@@ -48,14 +48,27 @@ db.Users.find({_id: ObjectId('635cf0938aec6c76a1b70d5c')});
 
 db.Users.ensureIndex({email: 1})
                                   //Group
-      db.Chat_Group.drop()                            
-db.Chat_Group.insert({
+db.Chat_Group.drop()   
+
+db.Chat_Group.insertMany([{
   group_id:"1",
-  chat_name: "", 
+  chat_name: "Hu Binh", 
   owner: {email: "nguyenvanthaibinh2210@gmail.com", nickname:"Bình Nguyễn Văn Thái" },
-  recipient: [ { email: "oh0h_sory_2210@yahoo.com.vn",  nickname: "Hu Binh" }],
+  member: [ { email: "oh0h_sory_2210@yahoo.com.vn",  nickname: "Hu Binh" },
+  {email: "nguyenvanthaibinh2210@gmail.com", nickname:"Bình Nguyễn Văn Thái" }],
+  last_chat_content:"Thái Bình Kêu Bình Hụ",
   photoGroupChatUrl: "https://lh3.googleusercontent.com/a/AEdFTp6zvs4chsoAfu8cUqN-M96cnCSASoq_0djXtHrn=s96-c",
-});
+},
+{
+  group_id:"2",
+  chat_name: "Phương Uyên", 
+  owner: {email: "nguyenvanthaibinh2210@gmail.com", nickname:"Bình Nguyễn Văn Thái" },
+  member: [ { email: "phuonguyen29011998@gmail.com",  nickname: "Phương Uyên" },
+  {email: "nguyenvanthaibinh2210@gmail.com", nickname:"Bình Nguyễn Văn Thái" }],
+    last_chat_content:"Tối nay ăn gì Iu???",
+  photoGroupChatUrl: "https://lh3.googleusercontent.com/a/AEdFTp62gMGrG-Ov9_ATvKhD96gETkD00kPMsvT3fxsb0-8=s96-c",
+}
+]);
 
 db.Chat_Group.ensureIndex({chat_name: 1})
 
@@ -68,7 +81,6 @@ db.Chats.find({id_chat_group:'1',
 db.Chats.insertMany([
 {
   id_chat_group: "1",
-  chat_name: "Nhom chat Binh Hu",
   from: "nguyenvanthaibinh2210@gmail.com",
   nickname:"Bình Nguyễn Văn Thái",
   to:[{
@@ -82,12 +94,27 @@ db.Chats.insertMany([
   content: "Hello Binh Hu!!!"
 },{
   id_chat_group: "1",
-  chat_name: "Nhom chat Binh Hu",
   from: "oh0h_sory_2210@yahoo.com.vn",
   nickname:"Hu Binh",
   send_at: new Date(),
   type: "text", 
-  content: "Oke! I hrearing a chat.",
+  content: "Thái Bình Kêu Bình Hụ",
+  to: [
+    {
+      email: "nguyenvanthaibinh2210@gmail.com",
+      nickname:"Bình Nguyễn Văn Thái",
+       isSaw: false,
+      seen_at: new Date(),
+    }
+    
+  ]
+},{
+  id_chat_group: "2",
+  from: "phuonguyen29011998@gmail.com",
+  nickname:"Phương Uyên",
+  send_at: new Date(),
+  type: "text", 
+  content: "Tối nay ăn gì Iu???",
   to: [
     {
       email: "nguyenvanthaibinh2210@gmail.com",
