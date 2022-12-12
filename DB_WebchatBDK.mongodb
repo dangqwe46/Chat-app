@@ -52,21 +52,54 @@ db.Chat_Group.drop()
 
 db.Chat_Group.insertMany([{
   group_id:"1",
-  chat_name: "Hu Binh", 
-  owner: {email: "nguyenvanthaibinh2210@gmail.com", nickname:"Bình Nguyễn Văn Thái" },
-  member: [ { email: "oh0h_sory_2210@yahoo.com.vn",  nickname: "Hu Binh" },
-  {email: "nguyenvanthaibinh2210@gmail.com", nickname:"Bình Nguyễn Văn Thái" }],
+  chat_name: "", 
+  member: [ 
+    { email: "oh0h_sory_2210@yahoo.com.vn",
+      nickname: "Hu Binh",
+      photoUserUrl:"https://lh3.googleusercontent.com/a/AEdFTp6zvs4chsoAfu8cUqN-M96cnCSASoq_0djXtHrn=s96-c" 
+      },
+    { email: "nguyenvanthaibinh2210@gmail.com", 
+      nickname:"Bình Nguyễn Văn Thái",
+      photoUserUrl:"https://lh3.googleusercontent.com/a/AEdFTp7vViVrFlmERB5KOsj5gchgtlqC_axRBZYnbrKYFA=s96-c"
+      }
+          ],
   last_chat_content:"Thái Bình Kêu Bình Hụ",
-  photoGroupChatUrl: "https://lh3.googleusercontent.com/a/AEdFTp6zvs4chsoAfu8cUqN-M96cnCSASoq_0djXtHrn=s96-c",
+  photoGroupChatUrl: "",
 },
 {
   group_id:"2",
-  chat_name: "Phương Uyên", 
-  owner: {email: "nguyenvanthaibinh2210@gmail.com", nickname:"Bình Nguyễn Văn Thái" },
-  member: [ { email: "phuonguyen29011998@gmail.com",  nickname: "Phương Uyên" },
-  {email: "nguyenvanthaibinh2210@gmail.com", nickname:"Bình Nguyễn Văn Thái" }],
-    last_chat_content:"Tối nay ăn gì Iu???",
-  photoGroupChatUrl: "https://lh3.googleusercontent.com/a/AEdFTp62gMGrG-Ov9_ATvKhD96gETkD00kPMsvT3fxsb0-8=s96-c",
+  chat_name: "", 
+  member: [ 
+    { email: "nguyenvanthaibinh2210@gmail.com", 
+      nickname:"Bình Nguyễn Văn Thái",
+      photoUserUrl:"https://lh3.googleusercontent.com/a/AEdFTp7vViVrFlmERB5KOsj5gchgtlqC_axRBZYnbrKYFA=s96-c"
+      }
+  , { email: "phuonguyen29011998@gmail.com",  
+      nickname: "Phương Uyên",
+      photoUserUrl:"https://lh3.googleusercontent.com/a/AEdFTp62gMGrG-Ov9_ATvKhD96gETkD00kPMsvT3fxsb0-8=s96-c"}
+          ],
+  last_chat_content:"Tối nay ăn gì Iu???",
+  photoGroupChatUrl: "",
+},
+{
+  group_id:"3",
+  chat_name: "", 
+  member: [ 
+    { email: "nguyenvanthaibinh2210@gmail.com", 
+      nickname:"Bình Nguyễn Văn Thái",
+      photoUserUrl:"https://lh3.googleusercontent.com/a/AEdFTp7vViVrFlmERB5KOsj5gchgtlqC_axRBZYnbrKYFA=s96-c"
+      },
+   { email: "phuonguyen29011998@gmail.com",  
+      nickname: "Phương Uyên",
+      photoUserUrl:"https://lh3.googleusercontent.com/a/AEdFTp62gMGrG-Ov9_ATvKhD96gETkD00kPMsvT3fxsb0-8=s96-c"
+      },
+   { email: "oh0h_sory_2210@yahoo.com.vn",
+      nickname: "Hu Binh",
+      photoUserUrl:"https://lh3.googleusercontent.com/a/AEdFTp6zvs4chsoAfu8cUqN-M96cnCSASoq_0djXtHrn=s96-c" 
+      },
+          ],
+  last_chat_content:"Đây là nhóm chát nhá!",
+  photoGroupChatUrl: "",
 }
 ]);
 
