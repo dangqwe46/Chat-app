@@ -7,9 +7,6 @@ import { useState, useEffect } from "react";
 import Input from "@mui/material/Input";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 
 const Item = styled("div")(() => ({
   textAlign: "center",

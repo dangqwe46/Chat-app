@@ -40,7 +40,7 @@ function AlignItemsList({ email }: { email: any }) {
     fetch(server + `/api/group/${email}`)
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         if (data.length > 0) {
           setChatNameandPhotoChat(data);
         }
@@ -70,11 +70,12 @@ function AlignItemsList({ email }: { email: any }) {
               ":focus": {
                 bgcolor: "rgba(25, 118, 210, 0.08)",
               },
+              color: "#1976d2",
             }}
           >
             <ListItem
               alignItems="flex-start"
-              onClick={() => console.log("Click me!")}
+              onClick={() => console.log("Id: " + object.group_id)}
             >
               <ListItemAvatar>
                 <Avatar
@@ -84,6 +85,9 @@ function AlignItemsList({ email }: { email: any }) {
                 />
               </ListItemAvatar>
               <ListItemText
+                sx={{
+                  color: "black",
+                }}
                 primary={object.chat_name}
                 secondary={
                   <React.Fragment>{object.last_chat_content}</React.Fragment>

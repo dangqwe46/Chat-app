@@ -79,7 +79,7 @@ function Sidebar() {
   }, [status]);
 
   return (
-    <StyleContainer>
+    <>
       <StyleHeader>
         <Tooltip title={session?.user?.name as string} placement="right">
           <StyleAvatar
@@ -106,8 +106,7 @@ function Sidebar() {
         <StyleSearchInput placeholder="Search in conversations" />
       </StyleSearch>
       <StyleSidebarButton>Start a new conversation</StyleSidebarButton>
-      <AlignItemsList email={session?.user?.email}></AlignItemsList>
-    </StyleContainer>
+      </>
   );
 }
 export default memo(Sidebar);
