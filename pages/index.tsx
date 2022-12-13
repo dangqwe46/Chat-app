@@ -32,7 +32,7 @@ const Home: NextPage = () => {
         <meta name="description" content="" />
       </Head>
       <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
+        <Grid sx={{ paddingLeft: 3, paddingRight: 3 }} container spacing={2}>
           <Grid item xs={6} md={4}>
             <Sidebar></Sidebar>
           </Grid>

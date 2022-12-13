@@ -2,8 +2,10 @@ import * as React from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
 import { useEffect, useState, memo } from "react";
 import { server } from "../index";
 import DefaultAvatar from "../../asset/group_avatar.png";
@@ -47,26 +49,50 @@ function AlignItemsList({ email }: { email: any }) {
 
   return (
     <>
+      {" "}
+      <Divider />
       {groupData.map((object: any) => (
         <List
           key={object._id}
-          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+          sx={{
+            width: "100%",
+            maxWidth: 450,
+            bgcolor: "background.paper",
+            paddingTop: 0,
+            paddingBottom: 0,
+          }}
         >
-          <ListItem alignItems="flex-start" onClick={() => alert("Please")}>
-            <ListItemAvatar>
-              <Avatar
-                alt="GroupChatAvatar"
-                imgProps={{ referrerPolicy: "no-referrer" }}
-                src={object.photoGroupChatUrl || DefaultAvatar.src}
+          <ListItemButton
+            sx={{
+              ":hover": {
+                bgcolor: "rgba(25, 118, 210, 0.08)",
+              },
+              ":focus": {
+                bgcolor: "rgba(25, 118, 210, 0.08)",
+              },
+            }}
+          >
+            <ListItem
+              alignItems="flex-start"
+              onClick={() => console.log("Click me!")}
+            >
+              <ListItemAvatar>
+                <Avatar
+                  alt="GroupChatAvatar"
+                  imgProps={{ referrerPolicy: "no-referrer" }}
+                  src={object.photoGroupChatUrl || DefaultAvatar.src}
+                />
+              </ListItemAvatar>
+              <ListItemText
+                primary={object.chat_name}
+                secondary={
+                  <React.Fragment>{object.last_chat_content}</React.Fragment>
+                }
               />
-            </ListItemAvatar>
-            <ListItemText
-              primary={object.chat_name}
-              secondary={
-                <React.Fragment>{object.last_chat_content}</React.Fragment>
-              }
-            />
-          </ListItem>
+            </ListItem>
+          </ListItemButton>
+
+          <Divider />
         </List>
       ))}
     </>

@@ -13,9 +13,9 @@ import { useEffect, memo } from "react";
 
 const StyleContainer = styled.div`
   height: 100vh;
-  min-width: 300px;
-  max-width: 350px;
- overflow-y: scroll;
+  min-width: 350px;
+  max-width: 430px;
+  overflow-y: scroll;
   border-right: 1px solid whitesmoke;
 `;
 
@@ -67,7 +67,7 @@ function Sidebar() {
         email: session?.user?.email,
         avatar: session?.user?.image,
       };
-    
+
       fetch(server + "/api/users/insertUser", {
         method: "POST",
         headers: {
