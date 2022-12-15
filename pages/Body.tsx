@@ -17,30 +17,25 @@ const SidebarContainer = styled(Grid)`
   border-right: 1px solid whitesmoke;
 `;
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
-
 export default function Body() {
-  const { data: session, status } = useSession();
-
+  const [isChatMsg, setChatMsg] = useState(false);
+  const handleOnClick = (id: number) => {
+    if (id != null) {
+      setChatMsg(true);
+    }
+    console.log(id);
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid sx={{ paddingLeft: 3, paddingRight: 3 }} container spacing={2}>
         <Grid item xs={6} md={4}>
           <SidebarContainer>
             <Sidebar />
-            <AlignItemsList
-              email={session?.user?.email}
-            />
+            <AlignItemsList handleOnClick={handleOnClick} />
           </SidebarContainer>
         </Grid>
         <Grid item xs={6} md={8}>
-          <ChatMsg />
+          {isChatMsg && <ChatMsg />}
         </Grid>
       </Grid>
     </Box>

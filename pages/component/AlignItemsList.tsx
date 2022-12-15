@@ -7,17 +7,23 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
 import { useEffect, useState, memo } from "react";
+import { useSession, signOut } from "next-auth/react";
 import { server } from "../index";
 import DefaultAvatar from "../../asset/group_avatar.png";
 
-function AlignItemsList({ email }: { email: any }) {
+function AlignItemsList(props: any) {
   const [groupData, setGroupData] = useState([]);
+  const { data: session, status } = useSession();
+
+  const handleClick = (id: any) => {
+    props.handleOnClick(id);
+  };
 
   const setChatNameandPhotoChat = (data: any) => {
     for (let i = 0; i < data.length; i++) {
       // 2 people
       if (data[i].member.length == 2) {
-        if (data[i].member[0].email == email) {
+        if (data[i].member[0].email == session?.user?.email) {
           data[i].chat_name = data[i].member[1].nickname;
           data[i].photoGroupChatUrl = data[i].member[1].photoUserUrl;
         } else {
@@ -37,15 +43,15 @@ function AlignItemsList({ email }: { email: any }) {
   };
 
   useEffect(() => {
-    fetch(server + `/api/group/${email}`)
+    fetch(server + `/api/group/${session?.user?.email}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.length > 0) {
           setChatNameandPhotoChat(data);
         }
       });
-  }, [email]);
+  }, [status]);
 
   return (
     <>
@@ -75,7 +81,7 @@ function AlignItemsList({ email }: { email: any }) {
           >
             <ListItem
               alignItems="flex-start"
-              onClick={() => console.log("Id: " + object.group_id)}
+              onClick={() => handleClick(object.group_id)}
             >
               <ListItemAvatar>
                 <Avatar
