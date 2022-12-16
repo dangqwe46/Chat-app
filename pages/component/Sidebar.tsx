@@ -6,18 +6,9 @@ import MorVericalIcon from "@mui/icons-material/MoreVert";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSession, signOut } from "next-auth/react";
-import AlignItemsList from "./AlignItemsList";
 import styled from "styled-components";
 import { server } from "../index";
 import { useEffect, memo } from "react";
-
-const StyleContainer = styled.div`
-  height: 100vh;
-  min-width: 350px;
-  max-width: 430px;
-  overflow-y: scroll;
-  border-right: 1px solid whitesmoke;
-`;
 
 const StyleHeader = styled.div`
   display: flex;
@@ -87,6 +78,7 @@ function Sidebar() {
             imgProps={{ referrerPolicy: "no-referrer" }}
           />
         </Tooltip>
+        What are you thinking ?
         <div>
           <IconButton>
             <ChatIcon />
@@ -106,7 +98,7 @@ function Sidebar() {
         <StyleSearchInput placeholder="Search in conversations" />
       </StyleSearch>
       <StyleSidebarButton>Start a new conversation</StyleSidebarButton>
-      </>
+    </>
   );
 }
 export default memo(Sidebar);

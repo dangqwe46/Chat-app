@@ -4,10 +4,8 @@ import AlignItemsList from "./component/AlignItemsList";
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { useEffect, useState, memo } from "react";
-import { useSession, signOut } from "next-auth/react";
+import { useState } from "react";
 
 const SidebarContainer = styled(Grid)`
   height: 100vh;
@@ -19,24 +17,27 @@ const SidebarContainer = styled(Grid)`
 
 export default function Body() {
   const [isChatMsg, setChatMsg] = useState(false);
-  const handleOnClick = (id: number) => {
+  const [groupId, setGroupId] = useState("");
+  const handleOnClick = (id: any) => {
     if (id != null) {
       setChatMsg(true);
+      setGroupId(id);
     }
-    console.log(id);
+    return null;
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid sx={{ paddingLeft: 3, paddingRight: 3 }} container spacing={2}>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={6} md={3}>
           <SidebarContainer>
             <Sidebar />
             <AlignItemsList handleOnClick={handleOnClick} />
           </SidebarContainer>
         </Grid>
-        <Grid item xs={6} md={8}>
-          {isChatMsg && <ChatMsg />}
+        <Grid item xs={6} md={6.5}>
+          {isChatMsg && <ChatMsg props={groupId} />}
         </Grid>
+        <Grid item xs={6} md={2.5}></Grid>
       </Grid>
     </Box>
   );
