@@ -3,25 +3,20 @@ import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import { styled } from "@mui/material/styles";
 import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
-
-const Item = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "white",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import { useState, useEffect } from "react";
 
 const inputProps = {
-  autoFocus: true,
-  fullWidth: false,
-  size: "medium",
+  minWidth: 350,
+  maxWidth: 430,
 };
 
-export const TextInput = () => {
+export const TextInput = ({ props }: { props: any }) => {
+  const [text, setText] = useState("");
+  useEffect(() => {
+    setText("");
+  }, [props]);
   return (
     <>
       <Box
@@ -37,22 +32,25 @@ export const TextInput = () => {
           <Grid item xs={6} md={6}>
             <FormControl size="small" fullWidth>
               <TextField
+                value={text ? text : ""}
+                inputRef={(input) => input && input.focus()}
                 id="outlined-password-input"
                 label="Message"
                 type="text"
-                autoComplete="current-password"
                 inputProps={inputProps}
                 multiline={true}
-                maxRows={8}
+                maxRows={4}
+                onChange={(e) => setText(e.target.value)}
               />
             </FormControl>
           </Grid>
           <Grid item xs={6} md={6}>
-            <Item>
-              <Button variant="contained" color="primary">
-                <SendIcon />
-              </Button>
-            </Item>
+            <Button
+              color="primary"
+              sx={{ bottom: 0, position: "fixed", marginBottom: 6.5 }}
+            >
+              <SendIcon />
+            </Button>
           </Grid>
         </Grid>
       </Box>
