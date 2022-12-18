@@ -11,6 +11,10 @@ export default function ChatMsg({ props }: { props: any }) {
       setGroupId(props);
     }
   }, [props]);
+  const handleChangData = (data: any) => {
+    console.log(data);
+    return;
+  };
 
   return (
     <>
@@ -19,7 +23,7 @@ export default function ChatMsg({ props }: { props: any }) {
           <Conversation props={props}></Conversation>
         </Grid>
         <Grid item xs={12}>
-          <TextInput props={groupId}></TextInput>
+          <TextInput props={handleChangData}></TextInput>
         </Grid>
       </Grid>
     </>

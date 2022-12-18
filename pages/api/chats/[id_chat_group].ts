@@ -9,11 +9,10 @@ handler.get(async (req, res) => {
     await connectToDatabase();
     const message = await collections.chat
       ?.find(req.query)
-      .sort({ _id: -1 })
-      .limit(1)
+      .sort({ _id: 1 })
+      .limit(15)
       .toArray();
     res.send(message);
-    console.log(message);
   } catch (error: any) {
     res.send(error.message);
   }

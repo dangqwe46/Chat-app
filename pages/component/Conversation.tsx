@@ -3,16 +3,11 @@ import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import React from "react";
-import TextField from "@mui/material/TextField";
-import SendIcon from "@mui/icons-material/Send";
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
+
 import { useState, useEffect, memo } from "react";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { server } from "../index";
-import clsx from "clsx";
 
 const StyleBox = styledMe(Box)`
   height: 83vh;
@@ -42,13 +37,17 @@ const ItemRight = styled(Paper)(({ theme }) => ({
   maxWidth: "40%",
   marginRight: 12,
 }));
-const showMsgCss = {
-  display: "none",
-};
-const showMsgCssA = {};
 
 export const Conversation = ({ props }: { props: any }) => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
+  const [chatData, setChatData] = useState([]);
+  useEffect(() => {
+    fetch(server + `/api/chats/${props}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setChatData(data);
+      });
+  }, [props]);
   return (
     <>
       <StyleBox>
@@ -59,23 +58,32 @@ export const Conversation = ({ props }: { props: any }) => {
           justifyContent="flex-end"
           alignItems="center"
         >
-          <Grid
-            item
-            xs={12}
-            sx={session?.user?.name == null ? showMsgCss : showMsgCssA}
-          >
-            <ItemLeft>
-              Text chat haha, toi la binh hu ban la ai, hay noi cho toi biet di
-              haha lam on di ma :)) Quen mat la phai ghi cho dai ra moi test
-              duoc
-            </ItemLeft>
-          </Grid>
-          <Grid item xs={12} sm={12} container justifyContent="flex-end">
-            <ItemRight>
-              Con lau toi moi noi nha, ban muon biet thi tu di ma tim hieu di
-              chu.Doi khi phai biet van dong cai nao
-            </ItemRight>
-          </Grid>
+          {chatData.map((data: any) => (
+            <>
+              <Grid
+                key={data._id}
+                item
+                xs={12}
+                sx={
+                  session?.user?.email != data.from ? {} : { display: "none" }
+                }
+              >
+                <ItemLeft>{data.content}</ItemLeft>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                container
+                justifyContent="flex-end"
+                sx={
+                  session?.user?.email == data.from ? {} : { display: "none" }
+                }
+              >
+                <ItemRight>{data.content}</ItemRight>
+              </Grid>
+            </>
+          ))}
         </Grid>
       </StyleBox>
     </>

@@ -12,7 +12,6 @@ db.Users.find().pretty()
 
 
 db.Chats.drop()
-db.Chat_Headers.drop()
 db.Users.drop()
 
 db.collection(Users);
@@ -103,7 +102,7 @@ db.Chat_Group.insertMany([{
 }
 ]);
 
-db.Chat_Group.ensureIndex({chat_name: 1})
+
 
                                   //Chat
 db.Chats.drop()
@@ -157,7 +156,75 @@ db.Chats.insertMany([
     }
     
   ]
-}
+},
+{
+  id_chat_group: "2",
+  from: "nguyenvanthaibinh2210@gmail.com",
+  nickname:"Bình Nguyễn Văn Thái",
+  send_at: new Date(),
+  type: "text", 
+  content: "Đi ăn nhà hàng Seoul đó iu.",
+  to: [
+    {
+      email: "phuonguyen29011998@gmail.com",
+      nickname:"Phương Uyên",
+       isSaw: false,
+      seen_at: new Date(),
+    }
+    
+  ]
+},
+{
+  id_chat_group: "2",
+  from: "phuonguyen29011998@gmail.com",
+  nickname:"Phương Uyên",
+  send_at: new Date(),
+  type: "text", 
+  content: "Oke, rứa iu đãi hí :))",
+  to: [
+    {
+      email: "nguyenvanthaibinh2210@gmail.com",
+      nickname:"Bình Nguyễn Văn Thái",
+       isSaw: false,
+      seen_at: new Date(),
+    }
+    
+  ]
+},
+{
+  id_chat_group: "2",
+  from: "nguyenvanthaibinh2210@gmail.com",
+  nickname:"Bình Nguyễn Văn Thái",
+  send_at: new Date(),
+  type: "text", 
+  content: "Tối qua iu nói iu đãi mà",
+  to: [
+    {
+      email: "phuonguyen29011998@gmail.com",
+      nickname:"Phương Uyên",
+       isSaw: false,
+      seen_at: new Date(),
+    }
+    
+  ]
+},
+{
+  id_chat_group: "2",
+  from: "nguyenvanthaibinh2210@gmail.com",
+  nickname:"Bình Nguyễn Văn Thái",
+  send_at: new Date(),
+  type: "text", 
+  content: "Iu xạo xạo khôn á",
+  to: [
+    {
+      email: "phuonguyen29011998@gmail.com",
+      nickname:"Phương Uyên",
+       isSaw: false,
+      seen_at: new Date(),
+    }
+    
+  ]
+},
 ]);
 
 db.Chats.ensureIndex({email: 1,chat_name:1})

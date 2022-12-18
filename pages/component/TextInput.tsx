@@ -17,6 +17,17 @@ export const TextInput = ({ props }: { props: any }) => {
   useEffect(() => {
     setText("");
   }, [props]);
+
+  const updateChatData = (chatData: any) => {
+    props(chatData);
+  };
+
+  const keyPress = (e: any) => {
+    if (e.keyCode == 13 && !e.shiftKey) {
+      e.preventDefault();
+      updateChatData(e.target.value);
+    }
+  };
   return (
     <>
       <Box
@@ -39,8 +50,9 @@ export const TextInput = ({ props }: { props: any }) => {
                 type="text"
                 inputProps={inputProps}
                 multiline={true}
-                maxRows={4}
+                maxRows={3}
                 onChange={(e) => setText(e.target.value)}
+                onKeyDown={keyPress}
               />
             </FormControl>
           </Grid>
