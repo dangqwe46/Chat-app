@@ -5,6 +5,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import MorVericalIcon from "@mui/icons-material/MoreVert";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SearchIcon from "@mui/icons-material/Search";
+import Typography from "@mui/material/Typography";
 import { useSession, signOut } from "next-auth/react";
 import styled from "styled-components";
 import { server } from "../index";
@@ -78,7 +79,8 @@ function Sidebar() {
             imgProps={{ referrerPolicy: "no-referrer" }}
           />
         </Tooltip>
-        What are you thinking ?
+        <Typography>What are you thinking ?</Typography>
+
         <div>
           <IconButton>
             <ChatIcon />

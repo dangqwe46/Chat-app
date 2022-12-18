@@ -24,11 +24,11 @@ export const TextInput = ({ props }: { props: any }) => {
           flexGrow: 2,
           position: "fixed",
           bottom: 0,
-          width: "100%",
+          width: "95%",
           marginBottom: 5,
         }}
       >
-        <Grid container spacing={-1}>
+        <Grid container>
           <Grid item xs={6} md={6}>
             <FormControl size="small" fullWidth>
               <TextField
