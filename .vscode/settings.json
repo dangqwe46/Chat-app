@@ -8,6 +8,8 @@
     "fullname",
     "khong",
     "lable",
+    "maxwidth",
+    "minwidth",
     "Nameand",
     "NEXTAUTH",
     "nextjs",

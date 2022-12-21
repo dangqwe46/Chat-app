@@ -6,10 +6,11 @@ import Grid from "@mui/material/Grid";
 import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 
 const inputProps = {
-  minWidth: 350,
-  maxWidth: 430,
+  minwidth: 350,
+  maxwidth: 430,
 };
 
 export const TextInput = ({ props }: { props: any }) => {
@@ -26,6 +27,7 @@ export const TextInput = ({ props }: { props: any }) => {
     if (e.keyCode == 13 && !e.shiftKey) {
       e.preventDefault();
       updateChatData(e.target.value);
+      setText("");
     }
   };
   return (
@@ -61,7 +63,7 @@ export const TextInput = ({ props }: { props: any }) => {
               color="primary"
               sx={{ bottom: 0, position: "fixed", marginBottom: 6.5 }}
             >
-              <SendIcon />
+              <FavoriteRoundedIcon />
             </Button>
           </Grid>
         </Grid>

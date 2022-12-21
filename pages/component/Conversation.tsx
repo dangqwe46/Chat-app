@@ -49,43 +49,28 @@ export const Conversation = ({ props }: { props: any }) => {
       });
   }, [props]);
   return (
-    <>
-      <StyleBox>
-        <Grid
-          container
-          rowSpacing={1.5}
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-        >
-          {chatData.map((data: any) => (
-            <>
-              <Grid
-                key={data._id}
-                item
-                xs={12}
-                sx={
-                  session?.user?.email != data.from ? {} : { display: "none" }
-                }
-              >
+    <StyleBox>
+      <Grid
+        container
+        rowSpacing={1.5}
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+      >
+        {chatData.map((data: any, index: any) => (
+          <React.Fragment key={index}>
+            {session?.user?.email != data.from ? (
+              <Grid item xs={12} container>
                 <ItemLeft>{data.content}</ItemLeft>
               </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                container
-                justifyContent="flex-end"
-                sx={
-                  session?.user?.email == data.from ? {} : { display: "none" }
-                }
-              >
+            ) : (
+              <Grid item xs={12} container justifyContent="flex-end">
                 <ItemRight>{data.content}</ItemRight>
               </Grid>
-            </>
-          ))}
-        </Grid>
-      </StyleBox>
-    </>
+            )}
+          </React.Fragment>
+        ))}
+      </Grid>
+    </StyleBox>
   );
 };
