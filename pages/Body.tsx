@@ -17,11 +17,15 @@ const SidebarContainer = styled(Grid)`
 
 export default function Body() {
   const [isChatMsg, setChatMsg] = useState(false);
-  const [groupId, setGroupId] = useState("");
-  const handleOnClick = (id: any) => {
+  const [groupData, setGroupData] = useState({});
+  const handleOnClick = (id: any, memberData: any) => {
     if (id != null) {
+      const data = {
+        groupId: id,
+        memberData: memberData,
+      };
       setChatMsg(true);
-      setGroupId(id);
+      setGroupData(data);
     }
     return null;
   };
@@ -35,7 +39,7 @@ export default function Body() {
           </SidebarContainer>
         </Grid>
         <Grid item xs={6} md={6.5}>
-          {isChatMsg && <ChatMsg props={groupId} />}
+          {isChatMsg && <ChatMsg props={groupData} />}
         </Grid>
         <Grid item xs={6} md={2.5}></Grid>
       </Grid>

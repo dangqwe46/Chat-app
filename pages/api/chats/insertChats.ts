@@ -3,17 +3,10 @@ import nextConnect from "next-connect";
 import { collections, connectToDatabase } from "../../../middleware/database";
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
-
-handler.get(async (req, res) => {
+handler.post(async (req, res) => {
   try {
     await connectToDatabase();
-    const message = await collections.chat
-      ?.find(req.query)
-      .sort({ _id: -1 })
-      .limit(20)
-      .toArray();
-
-    res.send(message?.reverse());
+    await collections.chat?.insertOne(req.body);
   } catch (error: any) {
     res.send(error.message);
   }

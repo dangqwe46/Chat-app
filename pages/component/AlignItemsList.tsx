@@ -7,7 +7,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
 import { useEffect, useState, memo } from "react";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { server } from "../index";
 import DefaultAvatar from "../../asset/group_avatar.png";
 
@@ -15,8 +15,11 @@ function AlignItemsList(props: any) {
   const [groupData, setGroupData] = useState([]);
   const { data: session, status } = useSession();
 
-  const handleClick = (id: any) => {
-    props.handleOnClick(id);
+  const handleClick = (id: any, memberData: any) => {
+    const filteredMemberData = memberData.filter(
+      (member: { email: string }) => member.email != session?.user?.email
+    );
+    props.handleOnClick(id, filteredMemberData);
   };
 
   const setChatNameandPhotoChat = (data: any) => {
@@ -81,7 +84,7 @@ function AlignItemsList(props: any) {
           >
             <ListItem
               alignItems="flex-start"
-              onClick={() => handleClick(object.group_id)}
+              onClick={() => handleClick(object.group_id, object.member)}
             >
               <ListItemAvatar>
                 <Avatar
