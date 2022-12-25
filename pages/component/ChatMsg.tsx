@@ -10,6 +10,20 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
   const { data: session, status } = useSession();
   const [ChatData, setChatData] = useState({});
 
+  async function insertChatToDB(saveChatData: any) {
+    try {
+      fetch(server + "/api/chats/insertChats", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(saveChatData),
+      });
+    } catch (error) {
+      console.warn("Insert chat fail!");
+    }
+  }
+
   const handleChangDataTextInput = (chatsData: any) => {
     const saveChatData = {
       id_chat_group: groupData.groupId,
@@ -27,14 +41,8 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
       type: "text",
       content: chatsData,
     };
+    insertChatToDB(saveChatData);
 
-    fetch(server + "/api/chats/insertChats", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(saveChatData),
-    });
     setChatData(saveChatData);
     console.log("Loading...");
   };

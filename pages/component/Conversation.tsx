@@ -16,8 +16,11 @@ const StyleBox = styledMe(Box)`
   border-right: 1px solid whitesmoke;
   width: "100%";
   margin-top: 2em;
+
 `;
 
+// display: flex;
+// flex-direction: column-reverse;
 const ItemLeft = styled(Paper)(({ theme }) => ({
   backgroundColor: "#3e4042b5",
   ...theme.typography.body1,
@@ -41,15 +44,20 @@ const ItemRight = styled(Paper)(({ theme }) => ({
 export const Conversation = ({ props }: { props: any }) => {
   const { data: session } = useSession();
   const [chatData, setChatData] = useState([]);
+
   useEffect(() => {
+    // window.scrollTo(0, document.body.scrollHeight);
+
     fetch(server + `/api/chats/${props}`)
       .then((response) => response.json())
       .then((data) => {
         setChatData(data);
       });
   }, [props]);
+  const a = document?.getElementById("divElem");
+  a?.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   return (
-    <StyleBox>
+    <StyleBox id="divElem">
       <Grid
         container
         rowSpacing={1.5}

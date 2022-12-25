@@ -62,6 +62,7 @@ export const TextInput = ({ props }: { props: any }) => {
             <Button
               color="primary"
               sx={{ bottom: 0, position: "fixed", marginBottom: 6.5 }}
+             
             >
               <FavoriteRoundedIcon />
             </Button>

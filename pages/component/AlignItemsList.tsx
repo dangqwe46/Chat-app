@@ -85,6 +85,7 @@ function AlignItemsList(props: any) {
             <ListItem
               alignItems="flex-start"
               onClick={() => handleClick(object.group_id, object.member)}
+              
             >
               <ListItemAvatar>
                 <Avatar
