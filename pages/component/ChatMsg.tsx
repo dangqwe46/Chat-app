@@ -7,9 +7,12 @@ import { server } from "../index";
 import { useSession } from "next-auth/react";
 
 export default function ChatMsg({ props: groupData }: { props: any }) {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [ChatData, setChatData] = useState({});
 
+  function sleep(ms: any) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
   async function insertChatToDB(saveChatData: any) {
     try {
       fetch(server + "/api/chats/insertChats", {
@@ -19,6 +22,7 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
         },
         body: JSON.stringify(saveChatData),
       });
+      await sleep(3 * 1000);
     } catch (error) {
       console.warn("Insert chat fail!");
     }
@@ -42,9 +46,7 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
       content: chatsData,
     };
     insertChatToDB(saveChatData);
-
     setChatData(saveChatData);
-    console.log("Loading...");
   };
 
   return (

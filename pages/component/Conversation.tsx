@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import React from "react";
 
 import { useState, useEffect, memo } from "react";
@@ -18,7 +19,7 @@ const StyleBox = styledMe(Box)`
   margin-top: 2em;
 
 `;
-
+// CSS scroll is down when loading page
 // display: flex;
 // flex-direction: column-reverse;
 const ItemLeft = styled(Paper)(({ theme }) => ({
@@ -44,41 +45,61 @@ const ItemRight = styled(Paper)(({ theme }) => ({
 export const Conversation = ({ props }: { props: any }) => {
   const { data: session } = useSession();
   const [chatData, setChatData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // window.scrollTo(0, document.body.scrollHeight);
-
+    setLoading(true);
     fetch(server + `/api/chats/${props}`)
       .then((response) => response.json())
       .then((data) => {
         setChatData(data);
+        setLoading(false);
       });
   }, [props]);
-  const a = document?.getElementById("divElem");
-  a?.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+
+  // Wait 1s to reding date then scroll down
+  function sleep(ms: any) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+  async function scrollDownAfter1s() {
+    await sleep(1 * 1000);
+    const boxElement = document?.getElementById("divElem");
+    boxElement?.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  }
+  scrollDownAfter1s();
+
   return (
     <StyleBox id="divElem">
-      <Grid
-        container
-        rowSpacing={1.5}
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="center"
-      >
-        {chatData.map((data: any, index: any) => (
-          <React.Fragment key={index}>
-            {session?.user?.email != data.from ? (
-              <Grid item xs={12} container>
-                <ItemLeft>{data.content}</ItemLeft>
-              </Grid>
-            ) : (
-              <Grid item xs={12} container justifyContent="flex-end">
-                <ItemRight>{data.content}</ItemRight>
-              </Grid>
-            )}
-          </React.Fragment>
-        ))}
-      </Grid>
+      {loading ? (
+        <Typography sx={{ textAlign: "center" }}>Loading...</Typography>
+      ) : (
+        <>
+          <Grid
+            container
+            rowSpacing={1.5}
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
+          >
+            {chatData.map((data: any, index: any) => (
+              <React.Fragment key={index}>
+                {session?.user?.email != data.from ? (
+                  <Grid item xs={12} container>
+                    <ItemLeft>{data.content}</ItemLeft>
+                  </Grid>
+                ) : (
+                  <Grid item xs={12} container justifyContent="flex-end">
+                    <ItemRight>{data.content}</ItemRight>
+                  </Grid>
+                )}
+              </React.Fragment>
+            ))}
+          </Grid>
+        </>
+      )}
     </StyleBox>
   );
 };
