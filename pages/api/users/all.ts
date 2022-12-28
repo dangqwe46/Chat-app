@@ -9,7 +9,7 @@ handler.get(async (req, res, next) => {
     await connectToDatabase();
     const user = await collections.user!.find().toArray();
 
-    // res.send(user);
+    res.send(user);
   } catch (error: any) {
     res.send(error.message);
   }

@@ -9,6 +9,7 @@ import React from "react";
 import { useState, useEffect, memo } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../index";
+import io from "Socket.IO-client";
 
 const StyleBox = styledMe(Box)`
   height: 83vh;
@@ -57,12 +58,10 @@ export const Conversation = ({ props }: { props: any }) => {
       });
   }, [props]);
 
-  // Wait 1s to reding date then scroll down
-  function sleep(ms: any) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+  //TODO: Waiting 1s to rending date then scroll down
+
   async function scrollDownAfter1s() {
-    await sleep(1 * 1000);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     const boxElement = document?.getElementById("divElem");
     boxElement?.scrollTo({
       top: document.body.scrollHeight,
@@ -70,6 +69,26 @@ export const Conversation = ({ props }: { props: any }) => {
     });
   }
   scrollDownAfter1s();
+
+  // TODO: Add socketio
+  useEffect(() => {
+    fetch(server + "/api/socketio").finally(() => {
+      const socket = io();
+
+      socket.on("connect", () => {
+        console.log("connect");
+        socket.emit("hello");
+      });
+
+      socket.on("hello", (data) => {
+        console.log("hello", data);
+      });
+
+      socket.on("disconnect", () => {
+        console.log("disconnect");
+      });
+    });
+  }, [props]);
 
   return (
     <StyleBox id="divElem">
