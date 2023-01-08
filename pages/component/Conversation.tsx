@@ -43,20 +43,20 @@ const ItemRight = styled(Paper)(({ theme }) => ({
   marginRight: 12,
 }));
 
-export const Conversation = ({ props }: { props: any }) => {
+export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
   const { data: session } = useSession();
   const [chatData, setChatData] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  console.log(ChatDataProps);
   useEffect(() => {
     setLoading(true);
-    fetch(server + `/api/chats/${props}`)
+    fetch(server + `/api/chats/${ChatDataProps.groupId}`)
       .then((response) => response.json())
       .then((data) => {
         setChatData(data);
         setLoading(false);
       });
-  }, [props]);
+  }, [ChatDataProps.groupId]);
 
   //TODO: Waiting 1s to rending date then scroll down
 
@@ -76,19 +76,14 @@ export const Conversation = ({ props }: { props: any }) => {
       const socket = io();
 
       socket.on("connect", () => {
-        console.log("connect");
-        socket.emit("hello");
-      });
-
-      socket.on("hello", (data) => {
-        console.log("hello", data);
+        console.log("connected");
       });
 
       socket.on("disconnect", () => {
-        console.log("disconnect");
+        console.log("disconnected");
       });
     });
-  }, [props]);
+  }, [ChatDataProps.groupId]);
 
   return (
     <StyleBox id="divElem">

@@ -8,11 +8,13 @@ import { useSession } from "next-auth/react";
 
 export default function ChatMsg({ props: groupData }: { props: any }) {
   const { data: session } = useSession();
-  const [ChatData, setChatData] = useState({});
 
-  function sleep(ms: any) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+  const [ChatDataProps, setChatDataProps] = useState(groupData);
+
+  useEffect(() => {
+    setChatDataProps(groupData);
+  }, [groupData]);
+
   async function insertChatToDB(saveChatData: any) {
     try {
       fetch(server + "/api/chats/insertChats", {
@@ -22,13 +24,20 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
         },
         body: JSON.stringify(saveChatData),
       });
-      await sleep(3 * 1000);
     } catch (error) {
       console.warn("Insert chat fail!");
     }
   }
 
+  
+
   const handleChangDataTextInput = (chatsData: any) => {
+    if (chatsData != null) {
+      groupData.ChatData = chatsData;
+      setChatDataProps(groupData);
+      console.log(groupData);
+    }
+
     const saveChatData = {
       id_chat_group: groupData.groupId,
       from: session?.user?.email,
@@ -45,15 +54,15 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
       type: "text",
       content: chatsData,
     };
-    insertChatToDB(saveChatData);
-    setChatData(saveChatData);
+    // insertChatToDB(saveChatData);
+    // setChatData(saveChatData);
   };
 
   return (
     <>
       <Grid>
         <Grid item xs={12}>
-          <Conversation props={groupData.groupId}></Conversation>
+          <Conversation props={ChatDataProps}></Conversation>
         </Grid>
         <Grid item xs={12}>
           <TextInput props={handleChangDataTextInput}></TextInput>
