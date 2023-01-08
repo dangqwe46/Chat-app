@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 import { Conversation } from "./Conversation";
 import { server } from "../index";
 import { useSession } from "next-auth/react";
+import io from "Socket.IO-client";
 
 export default function ChatMsg({ props: groupData }: { props: any }) {
   const { data: session } = useSession();
@@ -29,14 +30,25 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
     }
   }
 
-  
-
   const handleChangDataTextInput = (chatsData: any) => {
     if (chatsData != null) {
       groupData.ChatData = chatsData;
       setChatDataProps(groupData);
-      console.log(groupData);
     }
+    // TODO: Add socketio
+
+    fetch(server + "/api/socketio").finally(() => {
+      const socket = io();
+
+      socket.on("connect", () => {
+        console.log("connected");
+        socket.emit("on-chat", { content: chatsData });
+      });
+
+      socket.on("disconnect", () => {
+        console.log("disconnected");
+      });
+    });
 
     const saveChatData = {
       id_chat_group: groupData.groupId,

@@ -7,8 +7,8 @@ const ioHandler = (req: any, res: any) => {
     res.socket.server.io = io;
 
     io.on("connection", (socket) => {
-      socket.on("input-change", (msg) => {
-        socket.broadcast.emit("update-input", msg);
+      socket.on("on-chat", (msg) => {
+        io.emit("user-chat", msg);
       });
     });
   } else {

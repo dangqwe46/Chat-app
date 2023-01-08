@@ -47,12 +47,13 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
   const { data: session } = useSession();
   const [chatData, setChatData] = useState([]);
   const [loading, setLoading] = useState(false);
-  console.log(ChatDataProps);
+
   useEffect(() => {
     setLoading(true);
     fetch(server + `/api/chats/${ChatDataProps.groupId}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setChatData(data);
         setLoading(false);
       });
@@ -64,26 +65,33 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const boxElement = document?.getElementById("divElem");
     boxElement?.scrollTo({
-      top: document.body.scrollHeight,
+      top: 1000,
       behavior: "smooth",
     });
   }
   scrollDownAfter1s();
-
   // TODO: Add socketio
-  useEffect(() => {
-    fetch(server + "/api/socketio").finally(() => {
-      const socket = io();
 
-      socket.on("connect", () => {
-        console.log("connected");
-      });
+  fetch(server + "/api/socketio").finally(() => {
+    const socket = io();
 
-      socket.on("disconnect", () => {
-        console.log("disconnected");
+    socket.on("connect", () => {
+      console.log("connected");
+      socket.on("user-chat", (msg: any) => {
+        setChatData((prev: any) => {
+          const newJobs = [...chatData, msg] as any;
+
+          return newJobs;
+        });
+
+        console.log("user-chat: " + msg.content);
       });
     });
-  }, [ChatDataProps.groupId]);
+
+    socket.on("disconnect", () => {
+      console.log("disconnected");
+    });
+  });
 
   return (
     <StyleBox id="divElem">
@@ -101,11 +109,17 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
             {chatData.map((data: any, index: any) => (
               <React.Fragment key={index}>
                 {session?.user?.email != data.from ? (
-                  <Grid item xs={12} container>
+                  <Grid item xs={12} container key={index}>
                     <ItemLeft>{data.content}</ItemLeft>
                   </Grid>
                 ) : (
-                  <Grid item xs={12} container justifyContent="flex-end">
+                  <Grid
+                    item
+                    xs={12}
+                    container
+                    justifyContent="flex-end"
+                    key={index}
+                  >
                     <ItemRight>{data.content}</ItemRight>
                   </Grid>
                 )}
