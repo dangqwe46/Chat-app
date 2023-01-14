@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import React from "react";
 
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { server } from "../index";
 import io from "Socket.IO-client";
@@ -18,7 +18,7 @@ const StyleBox = styledMe(Box)`
   border-right: 1px solid whitesmoke;
   width: "100%";
   margin-top: 2em;
-
+  
 `;
 // CSS scroll is down when loading page
 // display: flex;
@@ -47,16 +47,18 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
   const { data: session } = useSession();
   const [chatData, setChatData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isScroll, setIsScroll] = useState(true);
 
   useEffect(() => {
     setLoading(true);
     fetch(server + `/api/chats/${ChatDataProps.groupId}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setChatData(data);
         setLoading(false);
+        scrollDownAfter1s();
       });
+    setIsScroll(true);
   }, [ChatDataProps.groupId]);
 
   //TODO: Waiting 1s to rending date then scroll down
@@ -69,7 +71,7 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
       behavior: "smooth",
     });
   }
-  scrollDownAfter1s();
+
   // TODO: Add socketio
 
   fetch(server + "/api/socketio").finally(() => {
@@ -78,23 +80,31 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
     socket.on("connect", () => {
       console.log("connected");
       socket.on("user-chat", (msg: any) => {
-        setChatData((prev: any) => {
+        setChatData(() => {
           const newJobs = [...chatData, msg] as any;
-
+          setIsScroll(false);
           return newJobs;
         });
-
-        console.log("user-chat: " + msg.content);
       });
     });
 
     socket.on("disconnect", () => {
-      console.log("disconnected");
+      console.log(" socket disconnected");
     });
   });
 
   return (
-    <StyleBox id="divElem">
+    <StyleBox
+      id="divElem"
+      sx={
+        isScroll
+          ? {}
+          : {
+              display: "flex",
+              flexDirection: "column-reverse",
+            }
+      }
+    >
       {loading ? (
         <Typography sx={{ textAlign: "center" }}>Loading...</Typography>
       ) : (
