@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import { Conversation } from "./Conversation";
 import { server } from "../index";
 import { useSession } from "next-auth/react";
-import io from "Socket.IO-client";
+const io = require("socket.io-client");
 
 export default function ChatMsg({ props: groupData }: { props: any }) {
   const { data: session } = useSession();
@@ -42,7 +42,11 @@ export default function ChatMsg({ props: groupData }: { props: any }) {
 
       socket.on("connect", () => {
         console.log("connected");
-        socket.emit("on-chat", { content: chatsData });
+        socket.emit("on-chat", {
+          content: chatsData,
+          from: session?.user?.email,
+          id_chat_group: groupData.groupId,
+        });
       });
 
       socket.on("disconnect", () => {

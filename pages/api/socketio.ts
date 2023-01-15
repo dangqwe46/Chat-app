@@ -8,7 +8,8 @@ const ioHandler = (req: any, res: any) => {
 
     io.on("connection", (socket) => {
       socket.on("on-chat", (msg) => {
-        io.emit("user-chat", msg);
+        console.log("Got message: " + msg.id_chat_group);
+        io.emit(msg.id_chat_group, msg);
       });
     });
   } else {

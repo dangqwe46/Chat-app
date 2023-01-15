@@ -15,11 +15,11 @@ function AlignItemsList(props: any) {
   const [groupData, setGroupData] = useState([]);
   const { data: session, status } = useSession();
 
-  const handleClick = (id: any, memberData: any) => {
+  const handleClick = (id: any, memberData: any, photoGroupChatUrl: any) => {
     const filteredMemberData = memberData.filter(
       (member: { email: string }) => member.email != session?.user?.email
     );
-    props.handleOnClick(id, filteredMemberData);
+    props.handleOnClick(id, filteredMemberData, photoGroupChatUrl);
   };
 
   const setChatNameandPhotoChat = (data: any) => {
@@ -42,6 +42,7 @@ function AlignItemsList(props: any) {
         }
       }
     }
+
     setGroupData(data);
   };
 
@@ -84,7 +85,13 @@ function AlignItemsList(props: any) {
           >
             <ListItem
               alignItems="flex-start"
-              onClick={() => handleClick(object.group_id, object.member)}
+              onClick={() =>
+                handleClick(
+                  object.group_id,
+                  object.member,
+                  object.photoGroupChatUrl
+                )
+              }
             >
               <ListItemAvatar>
                 <Avatar
