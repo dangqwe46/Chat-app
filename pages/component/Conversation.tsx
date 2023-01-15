@@ -45,7 +45,7 @@ const ItemRight = styled(Paper)(({ theme }) => ({
 
 export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
   const { data: session } = useSession();
-  const [chatData, setChatData] = useState([]);
+  const [chatData, setChatData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isScroll, setIsScroll] = useState(true);
 
@@ -74,24 +74,31 @@ export const Conversation = ({ props: ChatDataProps }: { props: any }) => {
 
   // TODO: Add socketio
 
-  fetch(server + "/api/socketio").finally(() => {
-    const socket = io();
+  useEffect(() => {
+    fetch(server + "/api/socketio").finally(() => {
+      const socket = io();
 
-    socket.on("connect", () => {
-      console.log("connected");
-      socket.on("user-chat", (msg: any) => {
-        setChatData(() => {
-          const newJobs = [...chatData, msg] as any;
-          setIsScroll(false);
-          return newJobs;
+      socket.on("connect", () => {
+        console.log("socket connected");
+        socket.on("user-chat", (msg: any) => {
+          setChatData((prev: any) => {
+            const newJobs = [...prev, msg] as any;
+            console.log(prev);
+            setIsScroll(false);
+            return newJobs;
+          });
         });
       });
-    });
 
-    socket.on("disconnect", () => {
-      console.log(" socket disconnected");
+      socket.on("disconnect", () => {
+        console.log(" socket disconnected");
+      });
+
+      return () => {
+        socket.disconnect();
+      };
     });
-  });
+  }, []);
 
   return (
     <StyleBox
